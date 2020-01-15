@@ -1,5 +1,9 @@
 #!/bin/bash
 for v in `curl -s https://api.github.com/repos/v2ray/v2ray-core/releases | grep '"tag_name"' | cut -d\" -f4 | grep -E 'v4.[0-9]{2}.[0-9]'`; do
-	echo download v2ray v2ray-linux-64-$v.zip now...
-	curl -L -H "Cache-Control: no-cache" -o v2ray-linux-64-$v.zip https://github.com/v2ray/v2ray-core/releases/download/$v/v2ray-linux-64.zip
+    echo download v2ray v2ray-linux-64-$v.zip now...
+    if test -f v2ray-linux-64-$v.zip; then
+        curl -R -L -H "Cache-Control: no-cache" -z v2ray-linux-64-$v.zip -o v2ray-linux-64-$v.zip https://github.com/v2ray/v2ray-core/releases/download/$v/v2ray-linux-64.zip
+    else
+        curl -R -L -H "Cache-Control: no-cache" -o v2ray-linux-64-$v.zip https://github.com/v2ray/v2ray-core/releases/download/$v/v2ray-linux-64.zip
+    fi
 done
